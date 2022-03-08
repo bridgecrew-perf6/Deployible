@@ -1,0 +1,12 @@
+---
+- name: NMAP Host Discovery
+hosts: localhost
+become: true
+
+vars_files:
+	- ../src/vars/vars.yml
+
+tasks:
+- name: Retrieve IPv4 Subnet CIDR
+	set_fact:
+		

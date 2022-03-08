@@ -1,0 +1,46 @@
+- name: Run Playbook
+  hosts: localhost
+  become: true
+  vars_files:
+    - ../src/vars/vars.yml
+
+  tasks:
+
+  - name: Install Galaxy Requirements
+    community.general.ansible_galaxy_install:
+      type: collection
+      name: ansible.netcommon
+    community.general.ansible_galaxy_install:
+      type: collection
+      name: community.network
+    community.general.ansible_galaxy_install:
+      type: collection
+      name: amazon.aws
+
+  - name: Install Pre-requisite Packages - python3
+    become_user: root
+    action: >
+     {{ ansible_pkg_mgr }} name=python3,transmission state=present update_cache=yes
+
+  - name: Install Pre-requisite Packages - python-apt
+    become_user: root
+    action: >
+     {{ ansible_pkg_mgr }} name=python-apt,transmission state=present update_cache=yes
+
+  - name: Install Pre-requisite Packages - nmap
+    become_user: root
+    action: >
+     {{ ansible_pkg_mgr }} name=nmap,transmission state=present update_cache=yes
+
+  - name: Install Python3-Pip
+    become_user: root
+    action: >
+     {{ ansible_pkg_mgr }} name=python3-pip,transmission state=present update_cache=yes
+
+  - name: Install NetAddr Library
+    pip:
+      name: netaddr
+
+  - name: Install Boto3 Library
+    pip:
+      name: boto3
