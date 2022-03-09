@@ -38,9 +38,16 @@
      {{ ansible_pkg_mgr }} name=python3-pip,transmission state=present update_cache=yes
 
   - name: Install NetAddr Library
+    become_user: root
     pip:
       name: netaddr
 
   - name: Install Boto3 Library
+    become_user: root  
     pip:
       name: boto3
+
+  - name: Install jmespath
+    become_user: root    
+    pip:
+      name: jmespath

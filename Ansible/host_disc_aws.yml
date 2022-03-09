@@ -8,16 +8,37 @@
     - ../src/vars/VAULT.yml
 
   tasks:
+
+    - name: VPC
+      amazon.aws.ec2_vpc_subnet_info:
+        aws_access_key: "{{ec2_access_key}}"
+        aws_secret_key: "{{ec2_secret_key}}"
+        region: "us-east-1"
+      register: vpc_instance_fact
+
+    - name: VPC Results
+      set_fact:
+        vpv_info: " {{ vpc_instance_fact | json_query('subnets[*].subnet_id') }} "
+
     - name: Gather EC2 Facts
       block:
       - name: Get instances facts
-        ec2_instance_facts:
+        ec2_instance_info:
           aws_access_key: "{{ec2_access_key}}"
           aws_secret_key: "{{ec2_secret_key}}"
           region: "us-east-1"
-        register: result
+        register: ec2_facts
 
-    - name: Instances ID
-      debug:
-        msg: "ID: {{ item.instance_id }} - State: {{ item.state.name }} - Public DNS: {{ item.public_dns_name }}"
-      loop: "{{ result.instances }}"
+    - name: Get Instance IPs
+      set_fact:
+        priv_ip: "{{ ec2_facts | json_query('instances[*].network_interfaces[*].private_ip_address') }}"
+        
+    - name: Copy Ansible facts to a file
+      copy:
+        content: "{{ priv_ip }}"
+        dest: ../src/priv.txt
+
+
+
+
+
