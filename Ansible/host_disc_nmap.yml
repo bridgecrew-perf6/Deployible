@@ -11,7 +11,7 @@
     - name: Retrieve IPv4 Subnet CIDR
       set_fact:
         mask_cidr: "{{ ip_mask | ipaddr('prefix') }}"
-	
+
   - ansible.builtin.debug:
     msg: "{{ net_mask | ipaddr('net') }}"
     
