@@ -9,6 +9,14 @@
 
   tasks:
 
+    - name: Retrieve IP
+      set_fact: 
+         my_ip: "{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}"
+
+    - name: Print IP
+      debug:
+        msg: "{{ my_ip }}"
+
     - name: VPC
       amazon.aws.ec2_vpc_subnet_info:
         aws_access_key: "{{ec2_access_key}}"
@@ -29,16 +37,24 @@
           region: "us-east-1"
         register: ec2_facts
 
+    - name: Print EC2 Facts
+      debug:
+        msg:" {{ ec2_facts.instances }} " 
+
     - name: Get Instance IPs
       set_fact:
-        priv_ip: "{{ ec2_facts | json_query('instances[*].network_interfaces[*].private_ip_address') }}"
-        
-    - name: Copy Ansible facts to a file
+        target_info: "{{ ec2_facts | json_query('instances[*].network_interfaces[*].{private_ip_address: private_ip_address, vpc_id: vpc_id}') }}"
+
+    - name: Copy My_IP
       copy:
-        content: "{{ priv_ip }}"
-        dest: ../src/priv.txt
+        content: "{{my_ip}}"
+        dest: ../src/vars/target_info.txt
 
+    - name: Copy Ansible facts to a file
+      lineinfile:
+        path: ../src/vars/target_info.txt
+        line: " {{ target_info }} "
 
-
-
-
+    - name: Print Info
+      debug:
+        msg: "{{ target_info }}"
