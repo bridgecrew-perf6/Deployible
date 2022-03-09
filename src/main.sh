@@ -11,8 +11,8 @@ read -p "Do you wish to use your AWS Credentials to Speed up Host Discovery? [Y/
 if [[ "$ans" =~ ^([yY][eE][sS]|[yY])$ ]]
 then
 	python3 ./vault.py
-	ansible-playbook ../Ansible/host_discovery.yml
+	ansible-playbook ../Ansible/host_disc_aws.yml --ask-vault-pass
 else
-	# Playbook for NMAP based discovery
+	ansible-playbook ../Ansible/host_disc_nmap.yml
 fi 
 
