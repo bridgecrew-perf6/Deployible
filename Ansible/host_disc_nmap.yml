@@ -1,12 +1,19 @@
 ---
-- name: NMAP Host Discovery
-hosts: localhost
-become: true
+- name: AWS Host Discovery
+  hosts: localhost
+  become: true
 
-vars_files:
-	- ../src/vars/vars.yml
+  vars_files:
+    - ../src/vars/vars.yml
 
-tasks:
-- name: Retrieve IPv4 Subnet CIDR
-	set_fact:
-		
+  tasks:
+  
+    - name: Retrieve IPv4 Subnet CIDR
+      set_fact:
+        mask_cidr: "{{ ip_mask | ipaddr('prefix') }}"
+	
+  - ansible.builtin.debug:
+    msg: "{{ net_mask | ipaddr('net') }}"
+    
+  - ansible.builtin.debug:
+  msg: "{{ ansible_default_ipv4 }}"
