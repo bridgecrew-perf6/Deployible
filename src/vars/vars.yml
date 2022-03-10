@@ -3,3 +3,4 @@
 ansible_python_interpreter: /usr/bin/python3
 ip_mask: "{{ ansible_default_ipv4.address }}/{{ansible_default_ipv4.netmask }}"
 net_mask: "{{ ansible_default_ipv4.network }}/{{ ansible_default_ipv4.netmask }}"
+ip_address: "{{ ansible_default_ipv4.address }}/{{ ansible_default_ipv4.netmask }}"

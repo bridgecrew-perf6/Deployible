@@ -12,8 +12,10 @@
       set_fact:
         mask_cidr: "{{ ip_mask | ipaddr('prefix') }}"
 
-  - ansible.builtin.debug:
-    msg: "{{ net_mask | ipaddr('net') }}"
-    
-  - ansible.builtin.debug:
-  msg: "{{ ansible_default_ipv4 }}"
+    - name: Set Addressing Facts
+      set_fact:
+        cidr: "{{ ip_address | ipaddr('network/prefix') }}"
+
+    - name: Print
+      debug:
+        msg: "{{cidr}}"
