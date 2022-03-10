@@ -7,20 +7,27 @@ import ipaddress
 import re
 
 def dict_factory(targets):
-	target_ip_lst = ''
-	target_vpc_lst = ''
+	target_ip_lst = []
+	target_vpc_lst = []
 	num_targets = int(len(targets)+1)
 	t_index = list(range(1, num_targets, 4))
 	for plc in t_index:
-		target_ip_lst += str(targets[plc] + "\n")
+		target_ip_lst.append(targets[plc])
 
 	v_index = list(range(-1, num_targets, 4))
 	for plc in v_index:
-		target_vpc_lst += str(targets[plc] + "\n")
+		target_vpc_lst.append(targets[plc])
 
 	#Use two lists to make dict - locate VPC where host is as target VPC
 	#Remove all other IPS outside that VPC
 	#Return dict of valid IPs. Send to wrtie function
+	target_index = int(len(targets)/4)+1
+	#print(list(range(1, target_index, 1)))
+
+	ip_dict = dict(zip(target_ip_lst, target_vpc_lst))
+	print(ip_dict)
+	# remove where VPC is different modify file to test
+
 
 def main():
 	if sys.argv[1] == "0":
