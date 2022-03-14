@@ -1,3 +1,4 @@
 VAULT.yml
-target_info.txt
+target_info.tmp
 priv.txt
+nmap_targets.tmp
