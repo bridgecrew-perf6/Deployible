@@ -48,11 +48,11 @@
     - name: Copy My_IP
       copy:
         content: "{{my_ip}}"
-        dest: ../src/vars/target_info.txt
+        dest: ../src/vars/target_info.tmp
 
     - name: Copy Ansible facts to a file
       lineinfile:
-        path: ../src/vars/target_info.txt
+        path: ../src/vars/target_info.tmp
         line: " {{ target_info }} "
 
     - name: Print Info

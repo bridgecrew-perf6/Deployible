@@ -1,5 +1,5 @@
 ---
-- name: AWS Host Discovery
+- name: NMAP Host Discovery
   hosts: localhost
   become: true
 
@@ -19,3 +19,18 @@
     - name: Print
       debug:
         msg: "{{cidr}}"
+
+    - name: NMAP Command
+      become: true
+      shell: "nmap -sn -PA22 -T5 -n 172.31.16.0/20 -oG - | awk '/Up$/{print$2}'"
+      register: nmap
+
+    - name: Set NMAP Target Facts
+      set_fact:
+        nmap_targets: "{{nmap.stdout}}"
+
+    - name: Export Target ip
+      local_action:
+        module: copy
+        content: "{{nmap_targets}}"
+        dest: "../src/vars/nmap_targets.tmp"
