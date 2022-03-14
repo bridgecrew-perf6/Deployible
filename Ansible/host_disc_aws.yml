@@ -37,10 +37,6 @@
           region: "us-east-1"
         register: ec2_facts
 
-    - name: Print EC2 Facts
-      debug:
-        msg:" {{ ec2_facts.instances }} " 
-
     - name: Get Instance IPs
       set_fact:
         target_info: "{{ ec2_facts | json_query('instances[*].network_interfaces[*].{private_ip_address: private_ip_address, vpc_id: vpc_id}') }}"
@@ -54,7 +50,3 @@
       lineinfile:
         path: ../src/vars/target_info.tmp
         line: " {{ target_info }} "
-
-    - name: Print Info
-      debug:
-        msg: "{{ target_info }}"

@@ -1,0 +1,32 @@
+---
+- name: Install Snort
+  hosts: localhost
+  become: true
+
+  vars_files:
+    - ../src/vars/snort_vars.yml
+
+  tasks:
+
+    - name: Install Snort-Specific Pre-reqs
+      apt:
+        name: "{{snort_ubuntu_prereq}}"
+        state: present
+
+    - name: Install Snort Packages
+      apt:
+        name: snort
+        state: present
+      environment:
+        RUNLEVEL: 1
+      ignore_errors: true
+
+    - name: Remove old snort.conf file 
+      file:
+        path: /etc/snort/snort.conf
+        state: absent
+
+    - name: Pull in Snort Configuration Template
+      copy:
+          src: ../src/vars/snort.conf
+          dest: /etc/snort/snort.conf
