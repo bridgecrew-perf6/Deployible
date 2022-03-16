@@ -16,10 +16,6 @@
       set_fact:
         cidr: "{{ ip_address | ipaddr('network/prefix') }}"
 
-    - name: Print
-      debug:
-        msg: "{{cidr}}"
-
     - name: NMAP Command
       become: true
       shell: "nmap -sn -PA22 -T5 -n 172.31.16.0/20 -oG - | awk '/Up$/{print$2}'"

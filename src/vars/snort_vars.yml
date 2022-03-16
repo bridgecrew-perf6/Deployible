@@ -1,0 +1,37 @@
+---
+# vars file for snort
+
+snort__url: "https://www.snort.org/downloads/snort"
+
+ip_mask: "{{ ansible_default_ipv4.address }}/{{ansible_default_ipv4.netmask }}"
+net_mask: "{{ ansible_default_ipv4.network }}/{{ ansible_default_ipv4.netmask }}"
+ip_address: "{{ ansible_default_ipv4.address }}/{{ ansible_default_ipv4.netmask }}"
+
+_snort_package_url:
+  default: UNSET
+  Fedora: "{{ snort_download_url}}/snort-{{ snort_version }}-1.f{{ ansible_distribution_major_version }}.{{ ansible_architecture }}.rpm"
+  CentOS: "{{ snort_download_url}}/snort-{{ snort_version }}-1.{{ ansible_distribution | lower }}{{ ansible_distribution_major_version }}.{{ ansible_architecture }}.rpm"
+
+snort_package_url: "{{ _snort_package_url[ansible_distribution] | default(_snort_package_url['default']) }}"
+
+snort_community_rules:
+  - url: "https://www.snort.org/downloads/community/snort3-community-rules.tar.gz"
+    file: community-files/snort3-community-rules/snort3-community.rules
+
+snort_service: snortd
+
+snort_ubuntu_prereq:
+  - iproute2
+  - build-essential
+  - ethtool
+  - flex
+  - libpcap-dev
+  - libpcre3-dev
+  - libdumbnet-dev
+  - zlib1g-dev
+
+snort_loc: ../vars/templates/snort.conf
+snort_copy_loc: ../vars/templates/snort.conf.tmp
+
+
+

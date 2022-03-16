@@ -4,14 +4,23 @@
 # It is responsible for launching the appropriate scirpts and playbooks
 #
 
+#Logging Setup
+exec 3>&1 4>&2
+trap 'exec 2>&4 1>&3' 0 1 2 3
+exec 1>deploy.log&1 2>&1
+
+#Logging Setup
+
 # Intro
-echo -e "Welcome to Deployible!\nThis program uses a collection of Ansible Playbooks and Scripts to map a subnet and install Snort"
-read -p "Press Enter to continue"
+echo -e "Welcome to Deployible!\nThis program uses a collection of Ansible Playbooks and Scripts to map a subnet and install Snort" >&3
+read -p "Press Enter to continue" >&3
 #  Intro
 
 # Install Dependencies
+echo -e "\nInstalling Dependencies...\n" >&3
 echo -e "\nInstalling Dependencies...\n"
-#ansible-playbook -C ../Ansible/init.yml &>/dev/null
+ansible-playbook -C ../Ansible/init.yml
+echo -e "Dependencies Installed\n" >&3
 echo -e "Dependencies Installed\n"
 # Install Dependencies
 
