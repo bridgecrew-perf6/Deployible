@@ -1,6 +1,6 @@
 ---
 - name: Install Snort
-  hosts: localhost
+  hosts: targets
   become: true
 
   vars_files:
@@ -28,5 +28,5 @@
 
     - name: Pull in Snort Configuration Template
       copy:
-          src: ../src/vars/snort.conf
+          src: ../src/vars/templates/snort.conf.tmp
           dest: /etc/snort/snort.conf

@@ -19,7 +19,7 @@ read -p "Press Enter to continue" >&3
 # Install Dependencies
 echo -e "\nInstalling Dependencies...\n" >&3
 echo -e "\nInstalling Dependencies...\n"
-ansible-playbook -C ../Ansible/init.yml
+#ansible-playbook -C ../Ansible/init.yml
 echo -e "Dependencies Installed\n" >&3
 echo -e "Dependencies Installed\n"
 # Install Dependencies
@@ -33,11 +33,11 @@ then
 	echo -e "Discovering Hosts via AWS API\n"
 	python3 ./vault.py
 	echo -e "\nEnter Ansible Vault Password"
-	ansible-playbook ../Ansible/host_disc_aws.yml --ask-vault-pass &>/dev/null
+	#ansible-playbook ../Ansible/host_disc_aws.yml --ask-vault-pass &>/dev/null
 	sudo python3 ./init_ips.py 0 
 else
 	echo -e "\nDiscovering Hosts via NMAP\n"
-	ansible-playbook ../Ansible/host_disc_nmap.yml &>/dev/null
+	#ansible-playbook ../Ansible/host_disc_nmap.yml &>/dev/null
 	echo -e "Hosts Discovered"
 	echo -e "Writing Targets to Ansible Configuration"
 	sudo python3 ./init_ips.py 1
@@ -48,7 +48,17 @@ echo -e "Host Discovery Complete\n"
 # Host Discovery
 
 # Snort Installation
+# Check target Operating System
 
+ansible-playbook ./config/snort_config_debian.yml
+
+ansible-playbook ../Ansible/snort_install.yml
+
+ansible-playbook ../Snort/pulledpork/pulled_pork.yml
+
+#sudo snort -T -i eth0 -c ./vars/templates/snort.conf.tmp
+
+#ansible-playbook ../Ansible/snort_install.yml
 # Snort Installation
 
 

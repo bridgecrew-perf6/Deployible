@@ -6,6 +6,7 @@
   vars_files: ../vars/snort_vars.yml
 
   tasks:
+
     - name: Generate Copy snort.Conf
       local_action:
         module: copy
@@ -27,47 +28,5 @@
         path: "{{snort_copy_loc}}"
         regexp: '#ipvar EXTERNAL_NET !$HOME_NET'
         line: 'ipvar EXTERNAL_NET !$HOME_NET'
-        state: present
-
-    - name: <Insert Name>
-      lineinfile:
-        path: "{{snort_copy_loc}}"
-        regexp: <Line to replace>
-        line: <Line to insert>
-        state: present
-
-    - name: <Insert Name>
-      lineinfile:
-        path: "{{snort_copy_loc}}"
-        regexp: <Line to replace>
-        line: <Line to insert>
-        state: present
-
-    - name: <Insert Name>
-      lineinfile:
-        path: "{{snort_copy_loc}}"
-        regexp: <Line to replace>
-        line: <Line to insert>
-        state: present
-
-    - name: <Insert Name>
-      lineinfile:
-        path: "{{snort_copy_loc}}"
-        regexp: <Line to replace>
-        line: <Line to insert>
-        state: present
-
-    - name: <Insert Name>
-      lineinfile:
-        path: "{{snort_copy_loc}}"
-        regexp: <Line to replace>
-        line: <Line to insert>
-        state: present
-
-    - name: <Insert Name>
-      lineinfile:
-        path: "{{snort_copy_loc}}"
-        regexp: <Line to replace>
-        line: <Line to insert>
         state: present
 

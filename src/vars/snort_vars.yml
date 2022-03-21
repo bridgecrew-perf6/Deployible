@@ -1,22 +1,21 @@
 ---
 # vars file for snort
 
+os_family: "{{ansible_os_family}}"
+os_maj_dist: "{{ansible_distribution}}"
+os_maj_dist_v: "{{ansible_distribution_major_version}}"
+
 snort__url: "https://www.snort.org/downloads/snort"
 
 ip_mask: "{{ ansible_default_ipv4.address }}/{{ansible_default_ipv4.netmask }}"
 net_mask: "{{ ansible_default_ipv4.network }}/{{ ansible_default_ipv4.netmask }}"
 ip_address: "{{ ansible_default_ipv4.address }}/{{ ansible_default_ipv4.netmask }}"
 
-_snort_package_url:
-  default: UNSET
-  Fedora: "{{ snort_download_url}}/snort-{{ snort_version }}-1.f{{ ansible_distribution_major_version }}.{{ ansible_architecture }}.rpm"
-  CentOS: "{{ snort_download_url}}/snort-{{ snort_version }}-1.{{ ansible_distribution | lower }}{{ ansible_distribution_major_version }}.{{ ansible_architecture }}.rpm"
+snort_community_rules_url_2: https://www.snort.org/downloads/community
+snort_community_package_name_2: community-rules.tar.gz
 
-snort_package_url: "{{ _snort_package_url[ansible_distribution] | default(_snort_package_url['default']) }}"
-
-snort_community_rules:
-  - url: "https://www.snort.org/downloads/community/snort3-community-rules.tar.gz"
-    file: community-files/snort3-community-rules/snort3-community.rules
+snort_community_rules_url_3: https://www.snort.org/downloads/community/
+snort_community_package_name_3: snort3-community-rules.tar.gz
 
 snort_service: snortd
 
@@ -30,8 +29,225 @@ snort_ubuntu_prereq:
   - libdumbnet-dev
   - zlib1g-dev
 
+pulled_pork_prereq:
+  - libcrypt-ssleay-perl
+  - liblwp-useragent-determined-perl
+
 snort_loc: ../vars/templates/snort.conf
 snort_copy_loc: ../vars/templates/snort.conf.tmp
+snort_rule_path: /etc/snort/rules
+
+
+
+# RULES
+snort_debian_rules:
+  - local.rules
+  #- app-detect.rules
+  - attack-responses.rules
+  - backdoor.rules
+  - bad-traffic.rules
+  #- blacklist.rules
+  #- botnet-cnc.rules
+  #- browser-chrome.rules
+  #- browser-firefox.rules
+  #- browser-ie.rules
+  #- browser-other.rules
+  #- browser-plugins.rules
+  #- browser-webkit.rules
+  - chat.rules
+  - community-sql-injection.rules
+  - community-web-client.rules
+  - community-web-dos.rules
+  - community-web-iis.rules
+  - community-web-misc.rules
+  - community-web-php.rules
+  - community-sql-injection.rules
+  - community-web-client.rules
+  - community-web-dos.rules
+  - community-web-iis.rules
+  - community-web-misc.rules
+  - community-web-php.rules
+  #- content-replace.rules
+  - ddos.rules
+  - dns.rules
+  - dos.rules
+  - experimental.rules
+  #- exploit-kit.rules
+  - exploit.rules
+  #- file-executable.rules
+  #- file-flash.rules
+  #- file-identify.rules
+  #- file-image.rules
+  #- file-java.rules
+  #- file-multimedia.rules
+  #- file-office.rules
+  #- file-other.rules
+  #- file-pdf.rules
+  - finger.rules
+  - ftp.rules
+  - icmp-info.rules
+  - icmp.rules
+  - imap.rules
+  #- indicator-compromise.rules
+  #- indicator-obfuscation.rules
+  #- indicator-scan.rules
+  #- indicator-shellcode.rules
+  - info.rules
+  #- malware-backdoor.rules
+  #- malware-cnc.rules
+  #- malware-other.rules
+  #- malware-tools.rules
+  - misc.rules
+  - multimedia.rules
+  - mysql.rules
+  - netbios.rules
+  - nntp.rules
+  - oracle.rules
+  #- os-linux.rules
+  #- os-mobile.rules
+  #- os-other.rules
+  #- os-solaris.rules
+  #- os-windows.rules
+  - other-ids.rules
+  - p2p.rules
+  #- phishing-spam.rules
+  #- policy-multimedia.rules
+  #- policy-other.rules
+  - policy.rules
+  #- policy-social.rules
+  #- policy-spam.rules
+  - pop2.rules
+  - pop3.rules
+  #- protocol-dns.rules
+  #- protocol-finger.rules
+  #- protocol-ftp.rules
+  #- protocol-icmp.rules
+  #- protocol-imap.rules
+  #- protocol-nntp.rules
+  #- protocol-pop.rules
+  #- protocol-rpc.rules
+  #- protocol-scada.rules
+  #- protocol-services.rules
+  #- protocol-snmp.rules
+  #- protocol-telnet.rules
+  #- protocol-tftp.rules
+  #- protocol-voip.rules
+  #- pua-adware.rules
+  #- pua-other.rules
+  #- pua-p2p.rules
+  #- pua-toolbars.rules
+  - rpc.rules
+  - rservices.rules
+  #- scada.rules
+  - scan.rules
+  #- server-apache.rules
+  #- server-iis.rules
+  #- server-mail.rules
+  #- server-mssql.rules
+  #- server-mysql.rules
+  #- server-oracle.rules
+  #- server-other.rules
+  #- server-samba.rules
+  #- server-webapp.rules
+  #- shellcode.rules
+  - smtp.rules
+  - snmp.rules
+  #- specific-threats.rules
+  #- spyware-put.rules
+  - sql.rules
+  - telnet.rules
+  - tftp.rules
+  - virus.rules
+  #- voip.rules
+  #- web-activex.rules
+  - web-attacks.rules
+  - web-cgi.rules
+  - web-client.rules
+  - web-coldfusion.rules
+  - web-frontpage.rules
+  - web-iis.rules
+  - web-misc.rules
+  - web-php.rules
+  - x11.rules
+
+snort_dynamic_library_rules:
+  []
+  #- bad-traffic.rules
+  #- chat.rules
+  #- dos.rules
+  #- exploit.rules
+  #- icmp.rules
+  #- imap.rules
+  #- misc.rules
+  #- multimedia.rules
+  #- netbios.rules
+  #- nntp.rules
+  #- p2p.rules
+  #- smtp.rules
+  #- snmp.rules
+  #- specific-threats.rules
+  #- web-activex.rules
+  #- web-client.rules
+  #- web-iis.rules
+  #- web-misc.rules
+
+
+snort_redhat_rules:
+  - community-rules/community.rules
+  #  - botcc.portgrouped.rules
+  - botcc.rules
+  #  - ciarmy.rules
+  - compromised.rules
+  #  - decoder-events.rules
+  #  - drop.rules
+  - dshield.rules
+#  - emerging-activex.rules
+#  - emerging-attack_response.rules
+#  - emerging-chat.rules
+#  - emerging-current_events.rules
+#  - emerging-deleted.rules
+#  - emerging-dns.rules
+#  - emerging-dos.rules
+#  - emerging-exploit.rules
+#  - emerging-ftp.rules
+#  - emerging-games.rules
+#  - emerging-icmp_info.rules
+#  - emerging-icmp.rules
+#  - emerging-imap.rules
+#  - emerging-inappropriate.rules
+#  - emerging-info.rules
+#  - emerging-malware.rules
+#  - emerging-misc.rules
+#  - emerging-mobile_malware.rules
+#  - emerging-netbios.rules
+#  - emerging-p2p.rules
+#  - emerging-policy.rules
+#  - emerging-pop3.rules
+#  - emerging-rpc.rules
+#  - emerging-scada.rules
+#  - emerging-scan.rules
+#  - emerging-shellcode.rules
+#  - emerging-smtp.rules
+#  - emerging-snmp.rules
+#  - emerging-sql.rules
+#  - emerging-telnet.rules
+#  - emerging-tftp.rules
+#  - emerging-trojan.rules
+#  - emerging-user_agents.rules
+#  - emerging-voip.rules
+#  - emerging-web_client.rules
+#  - emerging-web_server.rules
+#  - emerging-web_specific_apps.rules
+#  - emerging-worm.rules
+#  - files.rules
+#  - http-events.rules
+#  - rbn-malvertisers.rules
+#  - rbn.rules
+#  - smtp-events.rules
+#  - stream-events.rules
+#  - tls-events.rules
+#  - tor.rules
+
 
 
 

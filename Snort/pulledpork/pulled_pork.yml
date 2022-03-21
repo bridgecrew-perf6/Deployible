@@ -1,0 +1,46 @@
+- name: Install and Configure Pulled_Pork
+  become: true
+  hosts: targets
+
+  vars_files: ../../src/vars/snort_vars.yml
+
+  tasks:
+
+    - name: Install pre reqs for Pulled_Pork
+      apt:
+        name: "{{pulled_pork_prereq}}"
+        state: present
+
+    - name: make IPLISTS
+      file:
+        path: /etc/snort/rules/iplists
+        state: directory
+
+    - name: Pulled Pork download
+      script: ./pulled_pork.sh
+
+    - name: Remove old Pulled_Pork.conf file 
+      file:
+        path: /etc/snort/pulledpork.conf
+        state: absent
+
+    - name: Pull in Pulled Pork Configuration Template
+      copy:
+          src: ../../src/vars/templates/pulledpork_deb.conf
+          dest: /etc/snort/pulledpork.conf
+
+    - name: Pull new rules from Pulled Pork
+      become: true
+      command: /usr/local/bin/pulledpork.pl -c /etc/snort/pulledpork.conf -l 
+
+    - name: Pull default PreProc rules
+      copy:
+        src: "../default_rules/preproc_rules/"
+        dest: "/etc/snort/preproc_rules"
+
+    #- name: Pull in default_rules
+    #  copy:
+    #    src: "../default_rules/rules/"
+    #    dest: "/etc/snort/rules"
+
+
