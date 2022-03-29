@@ -28,6 +28,17 @@ snort_ubuntu_prereq:
   - libpcre3-dev
   - libdumbnet-dev
   - zlib1g-dev
+  - bison
+  - libluajit-5.1-dev
+  - pkg-config
+  - gcc
+  - openssl 
+  - libssl-dev 
+  - libnghttp2-dev
+  - flex 
+  - libdnet 
+  - autoconf 
+  - libtool
 
 pulled_pork_prereq:
   - libcrypt-ssleay-perl

@@ -1,10 +1,13 @@
 - name: Run Playbook
-  hosts: localhost
+  hosts: targets
   become: true
   vars_files:
     - ../src/vars/vars.yml
 
   tasks:
+
+  - name: Update APT 
+    apt: upgrade=dist force_apt_get=yes
 
   - name: Install Galaxy Requirements
     community.general.ansible_galaxy_install:
@@ -36,6 +39,11 @@
     become_user: root
     action: >
      {{ ansible_pkg_mgr }} name=python3-pip,transmission state=present update_cache=yes
+
+# PIP not being installed properly
+
+  - name: Install Python3-Pip
+    apt: name=python3-pip state=present
 
   - name: Install NetAddr Library
     become_user: root

@@ -19,7 +19,7 @@ read -p "Press Enter to continue" >&3
 # Install Dependencies
 echo -e "\nInstalling Dependencies...\n" >&3
 echo -e "\nInstalling Dependencies...\n"
-#ansible-playbook -C ../Ansible/init.yml
+ansible-playbook -C ../Ansible/init.yml
 echo -e "Dependencies Installed\n" >&3
 echo -e "Dependencies Installed\n"
 # Install Dependencies
