@@ -1,0 +1,14 @@
+---
+- name: Configure Alerting - hosts
+  hosts: localhost
+  become: true
+
+  vars_files:
+    - ../src/vars/snort_vars.yml
+
+  tasks:
+
+    - name: Install Snort-Specific Pre-reqs
+      apt:
+        name: "{{snort_ubuntu_prereq}}"
+        state: present

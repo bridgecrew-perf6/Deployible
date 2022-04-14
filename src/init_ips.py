@@ -123,7 +123,6 @@ def main():
 		logging.error("Invalid arguements passed. Check host_disc_aws.yml OR aws_disc_nmap.yml")
 
 main()
-cleanup()
 
 
 

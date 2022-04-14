@@ -29,4 +29,3 @@
         regexp: '#ipvar EXTERNAL_NET !$HOME_NET'
         line: 'ipvar EXTERNAL_NET !$HOME_NET'
         state: present
-

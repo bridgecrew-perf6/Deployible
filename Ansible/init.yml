@@ -1,5 +1,5 @@
 - name: Run Playbook
-  hosts: targets
+  hosts: localhost
   become: true
   vars_files:
     - ../src/vars/vars.yml

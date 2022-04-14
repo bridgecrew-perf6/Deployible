@@ -1,0 +1,33 @@
+---
+- name: Install rsyslog - server
+  hosts: localhost
+  become: true
+  tasks:
+
+    - name: Install rsyslog
+      apt:
+        name: rsyslog
+        state: present
+
+    - name: Remove old rsyslog.conf file 
+      file:
+        path: /etc/rsyslog.conf
+        state: absent
+
+    - name: Pull in rsyslog configuration
+      copy:
+          src: ../../src/vars/templates/rsyslog.conf
+          dest: /etc/rsyslog.conf
+
+    - name: Restart rsyslog
+      ansible.builtin.service:
+        name: rsyslog
+        state: restarted
+        enabled: yes
+
+
+
+
+
+
+

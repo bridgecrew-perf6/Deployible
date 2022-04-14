@@ -13,10 +13,6 @@
       set_fact: 
          my_ip: "{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}"
 
-    - name: Print IP
-      debug:
-        msg: "{{ my_ip }}"
-
     - name: VPC
       amazon.aws.ec2_vpc_subnet_info:
         aws_access_key: "{{ec2_access_key}}"
