@@ -7,3 +7,5 @@ log.out
 
 logs/*
 !logs/.gitkeep
+
+default_rules/*
