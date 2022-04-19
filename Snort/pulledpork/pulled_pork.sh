@@ -7,5 +7,4 @@ cd pulledpork-master/
  
 sudo cp pulledpork.pl /usr/local/bin
 sudo chmod +x /usr/local/bin/pulledpork.pl
-sudo cp etc/*.conf /etc/snort
-
+sudo cp ./etc/* /etc/snort

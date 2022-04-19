@@ -8,6 +8,16 @@
 
   tasks:
 
+    - name: Update APT
+      shell: sudo apt-get update
+
+    - name: Create snort dir if not exist
+      become: true
+      file:
+        path: /etc/snort
+        state: directory
+        mode: '0755'
+      
     - name: Install Snort-Specific Pre-reqs
       apt:
         name: "{{snort_ubuntu_prereq}}"
@@ -22,6 +32,8 @@
         state: absent
 
     - name: Pull in Snort Configuration Template
+      become: true
       copy:
-          src: ../src/vars/templates/snort.conf.tmp
+          src: "../src/vars/templates/snort.conf.tmp"
           dest: /etc/snort/snort.conf
+          mode: 0755

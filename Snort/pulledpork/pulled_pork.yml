@@ -31,16 +31,29 @@
 
     - name: Pull new rules from Pulled Pork
       become: true
-      command: /usr/local/bin/pulledpork.pl -c /etc/snort/pulledpork.conf -l 
+      command: sudo /usr/local/bin/pulledpork.pl -P -c /etc/snort/pulledpork.conf
 
-    - name: Pull default PreProc rules
+    - name: Pull in default_rules - community rules
       copy:
-        src: "../default_rules/preproc_rules/"
-        dest: "/etc/snort/preproc_rules"
+        src: "../default_rules/default_rules/community_rules"
+        dest: "/etc/snort"
+        mode: 0644
 
-    #- name: Pull in default_rules
-    #  copy:
-    #    src: "../default_rules/rules/"
-    #    dest: "/etc/snort/rules"
+    - name: Pull in default_rules - preproc rules
+      copy:
+        src: "../default_rules/default_rules/preproc_rules"
+        dest: "/etc/snort"
+        mode: 0644
 
+    - name: Pull in default_rules - so_rules
+      copy:
+        src: "../default_rules/default_rules/so_rules"
+        dest: "/etc/snort"
+        mode: 0644
+
+    - name: Pull in default_rules - rules
+      copy:
+        src: "../default_rules/default_rules/rules"
+        dest: "/etc/snort"
+        mode: 0644
 

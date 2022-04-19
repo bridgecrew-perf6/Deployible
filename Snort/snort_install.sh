@@ -12,5 +12,7 @@ tar xvzf snort-2.9.19.tar.gz
                       
 cd snort-2.9.19
 ./configure --enable-sourcefire && make && sudo make install
+sudo cp ./etc/* /etc/snort/
 
 sudo ldconfig
+

@@ -20,6 +20,7 @@ read -p "Press Enter to continue" >&3
 echo -e "\nInstalling Dependencies...\n" >&3
 echo -e "\nInstalling Dependencies...\n"
 ansible-playbook -C ../Ansible/init.yml
+export ANSIBLE_HOST_KEY_CHECKING=False
 echo -e "Dependencies Installed\n" >&3
 echo -e "Dependencies Installed\n"
 # Install Dependencies
@@ -37,7 +38,7 @@ then
 	sudo python3 ./init_ips.py 0 
 else
 	echo -e "\nDiscovering Hosts via NMAP\n"
-	ansible-playbook ../Ansible/host_disc_nmap.yml &>/dev/null
+	ansible-playbook ../Ansible/host_disc_nmap.yml
 	echo -e "Hosts Discovered"
 	echo -e "Writing Targets to Ansible Configuration"
 	sudo python3 ./init_ips.py 1
