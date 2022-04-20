@@ -50,13 +50,21 @@ echo -e "Host Discovery Complete\n"
 
 # Snort Installation
 # Check target Operating System
-
 ansible-playbook ./config/snort_config_debian.yml
-
 ansible-playbook ../Ansible/snort_install.yml
-
-ansible-playbook ../Snort/pulledpork/pulled_pork.yml
-
 # Snort Installation
 
+# Snort Configuration
+ansible-playbook ../Snort/pulledpork/pulled_pork.yml
+# Snort Configuration
+
+# Alerting Setup
+ansible-playbook ../Snort/alerting/setsys.yml
+ansible-playbook ../Snort/alerting/target_sys.yml
+sudo python3 ../Snort/alerting/swatch_config.py 
+# Alerting Setup
+
+# Verification
+ansible-playbook ../Ansible/verify.yml
+# Verification
 

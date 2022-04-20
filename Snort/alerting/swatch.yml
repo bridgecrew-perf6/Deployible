@@ -1,0 +1,12 @@
+---
+- name: Install and Configure Swatchdog
+  hosts: localhost
+  become: true
+  tasks:
+
+    - name: Install Swatchdog
+      apt:
+        name: swatch
+        state: present
+
+     
