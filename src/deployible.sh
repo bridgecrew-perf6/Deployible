@@ -57,7 +57,6 @@ sudo python3 ../Ansible/ssh_init.py
 
 #########
 sudo ansible-playbook ./config/snort_config.yml
-sudo ansible-playbook ./config/snort_config_rhel.yml
 sudo ansible-playbook ../Ansible/snort_install.yml
 # Snort Installation
 
@@ -66,15 +65,15 @@ sudo ansible-playbook ../Snort/pulledpork/pulled_pork.yml
 # Snort Configuration
 
 # Alerting Setup
-sudo ansible-playbook ../Snort/alerting/setsys.yml
-sudo ansible-playbook ../Snort/alerting/target_sys.yml
-sudo python3 ../Snort/alerting/swatch_config.py 
+#sudo ansible-playbook ../Snort/alerting/setsys.yml
+#sudo ansible-playbook ../Snort/alerting/target_sys.yml
+#sudo python3 ../Snort/alerting/swatch_config.py 
 # Alerting Setup
 ############
 
 
 # Verification
-sudo ansible-playbook ../Ansible/verify_host.yml
-sudo ansible-playbook ../Ansible/verify_targets.yml
+#sudo ansible-playbook ../Ansible/verify_host.yml
+#sudo ansible-playbook ../Ansible/verify_targets.yml
 # Verification
 

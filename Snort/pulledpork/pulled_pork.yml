@@ -1,14 +1,14 @@
-- name: Install and Configure Pulled_Pork
+---
+- hosts: Debian
   become: true
-  hosts: targets
 
   vars_files: ../../src/vars/snort_vars.yml
 
   tasks:
 
-    - name: Install pre reqs for Pulled_Pork
+    - name: Install Debian Pulled Pork Prereqs
       apt:
-        name: "{{pulled_pork_prereq}}"
+        name: "{{pulled_pork_debian_prereq}}"
         state: present
 
     - name: make IPLISTS
@@ -57,3 +57,61 @@
         dest: "/etc/snort"
         mode: 0644
 
+
+- hosts: Redhat
+  become: true
+
+  vars_files: ../../src/vars/snort_vars.yml
+
+  tasks:
+
+    - name: Install Redhat PulledPork Prereqs  
+      yum:
+        name: "{{ pulled_pork_redhat_prereq }}"
+        state: present
+
+    - name: make IPLISTS
+      file:
+        path: /etc/snort/rules/iplists
+        state: directory
+
+    - name: Pulled Pork download
+      script: ./pulled_pork.sh
+
+    - name: Remove old Pulled_Pork.conf file 
+      file:
+        path: /etc/snort/pulledpork.conf
+        state: absent
+
+    - name: Pull in Pulled Pork Configuration Template
+      copy:
+          src: ../../src/vars/templates/pulledpork_red.conf
+          dest: /etc/snort/pulledpork.conf
+
+    - name: Pull new rules from Pulled Pork
+      become: true
+      command: sudo /usr/local/bin/pulledpork.pl -P -c /etc/snort/pulledpork.conf
+
+    - name: Pull in default_rules - community rules
+      copy:
+        src: "../default_rules/default_rules/community_rules"
+        dest: "/etc/snort"
+        mode: 0644
+
+    - name: Pull in default_rules - preproc rules
+      copy:
+        src: "../default_rules/default_rules/preproc_rules"
+        dest: "/etc/snort"
+        mode: 0644
+
+    - name: Pull in default_rules - so_rules
+      copy:
+        src: "../default_rules/default_rules/so_rules"
+        dest: "/etc/snort"
+        mode: 0644
+
+    - name: Pull in default_rules - rules
+      copy:
+        src: "../default_rules/default_rules/rules"
+        dest: "/etc/snort"
+        mode: 0644

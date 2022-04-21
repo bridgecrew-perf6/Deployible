@@ -41,7 +41,7 @@ snort_ubuntu_prereq:
   - libtool
 
 
-snort_redhat_prereqs:
+snort_redhat_prereq:
   - gcc
   - flex
   - bison 
@@ -52,9 +52,15 @@ snort_redhat_prereqs:
   - tcpdump
   
 
-pulled_pork_prereq:
+pulled_pork_debian_prereq:
   - libcrypt-ssleay-perl
   - liblwp-useragent-determined-perl
+
+
+pulled_pork_redhat_prereq:
+  - perl-Crypt-SSLeay
+  - perl-libwww-perl
+  - perl-Archive-Tar
 
 snort_loc: ../vars/templates/snort.conf
 snort_copy_loc: ../vars/templates/snort.conf.tmp

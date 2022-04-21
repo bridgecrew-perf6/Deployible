@@ -40,14 +40,19 @@
 
 - hosts: Redhat
   become: true
+  gather_facts: no
 
   vars_files:
     - ../src/vars/snort_vars.yml
 
   tasks:
 
-    - name: Update APT
-      shell: sudo apt-get update
+    - name: Install PY3
+      become: true
+      raw: yum -y install python3
+
+    - name: Gather Facts
+      ansible.builtin.setup:
 
     - name: Create snort dir if not exist
       become: true
@@ -57,12 +62,43 @@
         mode: '0755'
       
     - name: Install Snort-Specific Pre-reqs
-      apt:
-        name: "{{snort_ubuntu_prereq}}"
+      yum:
+        name: "{{snort_redhat_prereq}}"
         state: present
 
-    - name: Install Snort Packages
-      script: ../Snort/snort_install.sh
+    - name: Install fedoraproject repo 
+      become: true
+      yum:
+        name: https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+        disable_gpg_check: yes
+        state: present
+
+    - name: Install libnghttp2
+      become: true
+      yum:
+        name: libnghttp2
+        state: present
+
+    - name: Install DAQ from Repo
+      become: true
+      yum:
+        name: daq
+        state: present
+
+    - name: Pull in & install Snort Packages
+      become: true
+      yum:
+        name: https://www.snort.org/downloads/snort/snort-2.9.19-1.f35.x86_64.rpm
+        disable_gpg_check: yes
+        state: present
+
+    - name: ldconf update
+      shell: "sudo ldconfig"
+
+
+    - name: file permissions and structure
+      become: true
+      script: "../src/config/file_conf_rhel.sh"
 
     - name: Remove old snort.conf file 
       file:
@@ -72,6 +108,6 @@
     - name: Pull in Snort Configuration Template
       become: true
       copy:
-          src: "../src/vars/templates/snort.conf.tmp"
+          src: "../src/vars/templates/snort.conf.rh.tmp"
           dest: /etc/snort/snort.conf
           mode: 0755
