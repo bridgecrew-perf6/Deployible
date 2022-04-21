@@ -1,4 +1,4 @@
----
+--
 - name: Debian Snort Configuration Module
   become: true
   hosts: localhost
@@ -6,11 +6,6 @@
   vars_files: ../vars/snort_vars.yml
 
   tasks:
-
-    - name: Downloading snort commmunity rules
-      get_url:
-        url: "{{ snort_community_rules_url_2 }}/{{ snort_community_package_name_2}}"
-        dest: "../../Snort/community_rules/"
 
     - name: Generate Copy snort.Conf
       local_action:
@@ -35,15 +30,25 @@
         line: 'ipvar EXTERNAL_NET !$HOME_NET'
         state: present
 
-    - name: Unpack community community rules
-      unarchive:
-        src: "../../Snort/community_rules/{{snort_community_package_name_2}}"
-        dest: "../../Snort/community_rules"
+    - name: Generate Copy snort.Conf - Redhat
+      local_action:
+        module: copy
+        src: "{{snort_loc}}"
+        dest: "{{snort_copy_loc_rh}}"
+        owner: root
+        group: root
+        mode: '0644'
 
+    - name: Configure Home_Net - Redhat
+      lineinfile:
+        path: "{{snort_copy_loc_rh}}"
+        regexp: 'ipvar HOME_NET any'
+        line: "ipvar HOME_NET {{ ip_address | ipaddr('network/prefix') }}"
+        state: present
 
-#- name: Copy to remote
-#  become: true
-#  hosts: targets
-
-#  vars_files: ../vars/snort_vars.yml
-
+    - name: Configure External Net - Redhat
+      lineinfile:
+        path: "{{snort_copy_loc_rh}}"
+        regexp: '#ipvar EXTERNAL_NET !$HOME_NET'
+        line: 'ipvar EXTERNAL_NET !$HOME_NET'
+        state: present

@@ -40,12 +40,25 @@ snort_ubuntu_prereq:
   - autoconf 
   - libtool
 
+
+snort_redhat_prereqs:
+  - gcc
+  - flex
+  - bison 
+  - zlib 
+  - libpcap 
+  - pcre 
+  - libdnet
+  - tcpdump
+  
+
 pulled_pork_prereq:
   - libcrypt-ssleay-perl
   - liblwp-useragent-determined-perl
 
 snort_loc: ../vars/templates/snort.conf
 snort_copy_loc: ../vars/templates/snort.conf.tmp
+snort_copy_loc_rh: ../vars/templates/snort.conf.rh.tmp
 snort_rule_path: /etc/snort/rules
 
 

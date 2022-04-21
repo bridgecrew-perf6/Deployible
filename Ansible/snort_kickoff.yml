@@ -1,0 +1,70 @@
+---
+- hosts: localhost
+  tasks:
+    - name: Show host's ip
+      set_fact:
+        host_ip: "{{ ansible_default_ipv4.address }}"
+
+- hosts: targets
+  become: true
+  gather_facts: yes
+
+  tasks:
+
+    - name: Set localhost IP Fact 
+      set_fact:
+        localhost_ip: "{{hostvars['localhost']['host_ip']}}"
+
+    - name: Creating Tmp Deployible Dir
+      file:
+        path: "/home/dply"
+        state: directory
+      when: ansible_default_ipv4.address == localhost_ip
+
+    - name: Creating Deb in dply
+      file:
+        path: "/home/dply/deb.txt"
+        state: touch
+      when: ansible_default_ipv4.address == localhost_ip
+
+    - name: Creating Redhat in dply
+      file:
+        path: "/home/dply/red.txt"
+        state: touch
+      when: ansible_default_ipv4.address == localhost_ip
+
+    - name: Creating Windows in dply
+      file:
+        path: "/home/dply/win.txt"
+        state: touch
+      when: ansible_default_ipv4.address == localhost_ip
+
+
+    - name: Insert IP if Debian
+      local_action:
+        module: lineinfile
+        path: /home/dply/deb.txt
+        line: "{{ansible_default_ipv4.address}}"
+      when: ansible_os_family == "Debian"
+
+    - name: Insert IP if Redhat
+      local_action:
+        module: lineinfile
+        path: /home/dply/deb.txt
+        line: "{{ansible_default_ipv4.address}}"
+      when: ansible_os_family == "Redhat"
+
+    - name: Insert IP if Windows
+      local_action:
+        module: lineinfile
+        path: /home/dply/deb.txt
+        line: "{{ansible_default_ipv4.address}}"
+      when: ansible_os_family == "Windows"
+
+
+
+
+
+
+
+

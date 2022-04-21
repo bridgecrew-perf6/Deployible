@@ -1,6 +1,44 @@
 ---
-- name: Install Snort
-  hosts: targets
+- hosts: Debian
+  become: true
+
+  vars_files:
+    - ../src/vars/snort_vars.yml
+
+  tasks:
+
+    - name: Update APT
+      shell: sudo apt-get update
+
+    - name: Create snort dir if not exist
+      become: true
+      file:
+        path: /etc/snort
+        state: directory
+        mode: '0755'
+      
+    - name: Install Snort-Specific Pre-reqs
+      apt:
+        name: "{{snort_ubuntu_prereq}}"
+        state: present
+
+    - name: Install Snort Packages
+      script: ../Snort/snort_install.sh
+
+    - name: Remove old snort.conf file 
+      file:
+        path: /etc/snort/snort.conf
+        state: absent
+
+    - name: Pull in Snort Configuration Template
+      become: true
+      copy:
+          src: "../src/vars/templates/snort.conf.tmp"
+          dest: /etc/snort/snort.conf
+          mode: 0755
+
+
+- hosts: Redhat
   become: true
 
   vars_files:

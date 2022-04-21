@@ -1,0 +1,48 @@
+---
+- hosts: targets
+  gather_facts: no
+  
+
+  tasks:
+
+    - name: Determine remote address
+      set_fact:
+        ansible_user__connect_to: "{{ hostvars[inventory_hostname].ansible_host | default(inventory_hostname) }}"
+
+    - name: Set SSH username to ubuntu
+      set_fact:
+        ansible_ssh_user: ubuntu
+      when: "'vagrant' not in inventory_hostname"
+      changed_when: false
+      delegate_to: localhost
+
+    - block:
+      - name: Check SSH connection to verify ubuntu user
+        wait_for_connection:
+          timeout: 5
+        register: ansible_user__check_command_output
+        check_mode: no
+        changed_when: false
+      rescue:
+        - name: Create tmp file 
+          local_action:
+            module: file 
+            path: /home/rhel_ip.txt
+            state: touch
+        - name: Write unreachables
+          local_action:
+            module: lineinfile
+            path: /home/rhel_ip.txt
+            line: "{{inventory_hostname}}"
+
+    - name: Create all inv 
+      local_action:
+        module: file 
+        path: /home/all_ip.txt
+        state: touch
+
+    - name: write all inv 
+      local_action:
+        module: lineinfile
+        path: /home/all_ip.txt
+        line: "{{inventory_hostname}}"
