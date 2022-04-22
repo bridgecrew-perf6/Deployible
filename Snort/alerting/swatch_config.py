@@ -6,6 +6,10 @@ import getpass
 
 def main():
 	print("\nWelcome to the Alerting Module!\nHere we configure how you want to be alerted.\n You have two options:\n1:Swatchdog Terminal Alterts\n2:Email Alerts (AWS SES REQUIRED)\n")
+	
+	if os.path.exists("/home/ubuntu/.swatchdogrc"):
+		os.remove("/home/ubuntu/.swatchdogrc")
+
 	choice = int(input("Choice: "))
 	if choice == 1:
 		term()
@@ -54,24 +58,24 @@ def term():
 
 def conf_term(alerting_lvl):
 
-	conf_file = str("/home/"+str(getpass.getuser())+"/.swatchdogrc")
+	conf_file = str("/home/ubuntu/.swatchdogrc")
 
 	if alerting_lvl == 1:
 		f = open(conf_file, "a")
-		f.write("watchfor /*[Priority: 1]*/\necho red\n")
-		f.write("watchfor /*[Priority: 2]*/\necho red\n")
-		f.write("watchfor /*[Priority: 3]*/\necho red\n")		
+		f.write("watchfor /[Priority: 1]/\necho red\n")
+		f.write("watchfor /[Priority: 2]/\necho red\n")
+		f.write("watchfor /[Priority: 3]/\necho red\n")		
 		f.close()
 
 	elif alerting_lvl == 2:
 		f = open(conf_file, "a")
-		f.write("watchfor /*[Priority: 2]*/\necho red\n")
-		f.write("watchfor /*[Priority: 3]*/\necho red\n")
+		f.write("watchfor /[Priority: 2]/\necho red\n")
+		f.write("watchfor /[Priority: 3]/\necho red\n")
 		f.close()
 
 	elif alerting_lvl == 3:
 		f = open(conf_file, "a")
-		f.write("watchfor /*[Priority: 3]*/\necho red\n")
+		f.write("watchfor /[Priority: 3]/\necho red\n")
 		f.close()
 
 	else:
@@ -83,25 +87,25 @@ def conf_term(alerting_lvl):
 
 def conf_email(email_addr, alerting_lvl):
 
-	conf_file = str("/home/"+str(getpass.getuser())+"/.swatchdogrc")
+	conf_file = str("/home/ubuntu/.swatchdogrc")
 	mail_conf = str("mail="+str(email_addr)+", subject='Snort Logging Alert!'")	
 
 	if alerting_lvl == 1:
 		f = open(conf_file, "a")
-		f.write("watchfor /*[Priority: 1]*/\necho red\n" + mail_conf + "\n")
-		f.write("watchfor /*[Priority: 2]*/\necho red\n" + mail_conf + "\n")
-		f.write("watchfor /*[Priority: 3]*/\necho red\n" + mail_conf + "\n")		
+		f.write("watchfor /[Priority: 1]/\necho red\n" + mail_conf + "\n")
+		f.write("watchfor /[Priority: 2]/\necho red\n" + mail_conf + "\n")
+		f.write("watchfor /[Priority: 3]/\necho red\n" + mail_conf + "\n")		
 		f.close()
 
 	elif alerting_lvl == 2:
 		f = open(conf_file, "a")
-		f.write("watchfor /*[Priority: 2]*/\necho red\n" + mail_conf + "\n")
-		f.write("watchfor /*[Priority: 3]*/\necho red\n" + mail_conf + "\n")
+		f.write("watchfor /[Priority: 2]/\necho red\n" + mail_conf + "\n")
+		f.write("watchfor /[Priority: 3]/\necho red\n" + mail_conf + "\n")
 		f.close()
 
 	elif alerting_lvl == 3:
 		f = open(conf_file, "a")
-		f.write("watchfor /*[Priority: 3]*/\necho red\n" + mail_conf + "\n")
+		f.write("watchfor /[Priority: 3]/\necho red\n" + mail_conf + "\n")
 		f.close()
 
 	else:

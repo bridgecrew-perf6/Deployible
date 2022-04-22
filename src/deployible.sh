@@ -65,15 +65,23 @@ sudo ansible-playbook ../Snort/pulledpork/pulled_pork.yml
 # Snort Configuration
 
 # Alerting Setup
-#sudo ansible-playbook ../Snort/alerting/setsys.yml
-#sudo ansible-playbook ../Snort/alerting/target_sys.yml
-#sudo python3 ../Snort/alerting/swatch_config.py 
+sudo ansible-playbook ../Snort/alerting/setsys.yml
+sudo ansible-playbook ../Snort/alerting/target_sys.yml
+sudo python3 ../Snort/alerting/swatch_config.py 
 # Alerting Setup
-############
 
 
 # Verification
-#sudo ansible-playbook ../Ansible/verify_host.yml
-#sudo ansible-playbook ../Ansible/verify_targets.yml
+sudo ansible-playbook ../Ansible/verify.yml
 # Verification
+
+read -p "Do you want this terminal to monitor?? [Y/N]: " ans2
+
+if [[ "$ans2" =~ ^([yY][eE][sS]|[yY])$ ]]
+then
+	sudo swatchdog -c /home/ubuntu/.swatchdogrc -t /var/log/auth.log
+else
+	echo "\nTo monitor logs, SSH into and open a terminal on this machine\nRun ./monitor.sh in the base Deployible Directory"
+fi
+
 

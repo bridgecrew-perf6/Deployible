@@ -1,0 +1,28 @@
+---
+- hosts: Debian
+  become: true
+
+  tasks:
+
+    - name: Config
+      ignore_errors: yes
+      shell: sudo ln -s /usr/lib64/libdnet.so.1.0.1 /usr/lib64/libdnet.1
+
+    - name: Kickoff
+      ignore_errors: yes
+      shell: sudo snort -D -c /etc/snort/snort.conf
+
+
+- hosts: Redhat
+  become: true
+
+  tasks:
+
+    - name: Config
+      ignore_errors: yes
+      shell: sudo ln -s /usr/lib64/libdnet.so.1.0.1 /usr/lib64/libdnet.1
+
+
+    - name: Kickoff
+      ignore_errors: yes
+      shell: sudo snort -D -c /etc/snort/snort.conf
