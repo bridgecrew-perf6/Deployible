@@ -62,6 +62,7 @@
         mode: '0755'
       
     - name: Install Snort-Specific Pre-reqs
+      ignore_errors: yes
       yum:
         name: "{{snort_redhat_prereq}}"
         state: present
@@ -79,11 +80,6 @@
         name: libnghttp2
         state: present
 
-    - name: Install DAQ from Repo
-      become: true
-      yum:
-        name: daq
-        state: present
 
     - name: Pull in & install Snort Packages
       become: true
@@ -94,7 +90,6 @@
 
     - name: ldconf update
       shell: "sudo ldconfig"
-
 
     - name: file permissions and structure
       become: true

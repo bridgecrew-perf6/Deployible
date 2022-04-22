@@ -5,6 +5,18 @@
 
   tasks:
 
+    - name: Cleanup
+      local_action:
+        module: file 
+        path: /home/all_ip.txt
+        state: absent 
+
+    - name: Cleanup 2
+      local_action:
+        module: file 
+        path: /home/rhel_ip.txt
+        state: absent 
+
     - name: Determine remote address
       set_fact:
         ansible_user__connect_to: "{{ hostvars[inventory_hostname].ansible_host | default(inventory_hostname) }}"

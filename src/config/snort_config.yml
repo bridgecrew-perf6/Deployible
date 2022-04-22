@@ -12,9 +12,6 @@
         module: copy
         src: "{{snort_loc}}"
         dest: "{{snort_copy_loc}}"
-        owner: root
-        group: root
-        mode: '0644'
 
     - name: Configure Home_Net
       lineinfile:
@@ -33,11 +30,9 @@
     - name: Generate Copy snort.Conf - Redhat
       local_action:
         module: copy
-        src: "{{snort_loc}}"
+        src: "{{snort_loc_rh}}"
         dest: "{{snort_copy_loc_rh}}"
-        owner: root
-        group: root
-        mode: '0644'
+        mode: "0777"
 
     - name: Configure Home_Net - Redhat
       lineinfile:
@@ -52,3 +47,18 @@
         regexp: '#ipvar EXTERNAL_NET !$HOME_NET'
         line: 'ipvar EXTERNAL_NET !$HOME_NET'
         state: present
+
+    - name: Configure Dynamic Location - Redhat
+      lineinfile:
+        path: "{{snort_copy_loc_rh}}"
+        regexp: 'dynamicpreprocessor directory /usr/local/lib/snort_dynamicpreprocessor/'
+        line: 'dynamicpreprocessor directory /usr/lib64/snort-2.9.19_dynamicpreprocessor/'
+        state: present
+
+    - name: Configure External Net - Redhat
+      lineinfile:
+        path: "{{snort_copy_loc_rh}}"
+        regexp: 'dynamicengine /usr/local/lib/snort_dynamicengine/libsf_engine.so'
+        line: 'dynamicengine /usr/lib64/snort-2.9.19_dynamicengine/libsf_engine.so'
+        state: present
+

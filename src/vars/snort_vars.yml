@@ -50,6 +50,11 @@ snort_redhat_prereq:
   - pcre 
   - libdnet
   - tcpdump
+  - git
+  - zlib-devel
+  - pcre-devel 
+  - openssl-devel
+  - wget
   
 
 pulled_pork_debian_prereq:
@@ -58,14 +63,17 @@ pulled_pork_debian_prereq:
 
 
 pulled_pork_redhat_prereq:
-  - perl-Crypt-SSLeay
+  - git
   - perl-libwww-perl
   - perl-Archive-Tar
+  - perl-Sys-Syslog
+  - perl-LWP-Protocol-https
 
 snort_loc: ../vars/templates/snort.conf
 snort_copy_loc: ../vars/templates/snort.conf.tmp
 snort_copy_loc_rh: ../vars/templates/snort.conf.rh.tmp
 snort_rule_path: /etc/snort/rules
+snort_loc_rh: ../vars/templates/snort.conf.rh
 
 
 

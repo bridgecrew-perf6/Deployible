@@ -3,7 +3,7 @@
 ###################################################
 # Step #1: Set the network variables.
 ###################################################
-ipvar HOME_NET 172.31.16.0/20
+ipvar HOME_NET any
 ipvar EXTERNAL_NET !$HOME_NET
 ipvar DNS_SERVERS $HOME_NET
 ipvar SMTP_SERVERS $HOME_NET
@@ -29,7 +29,7 @@ ipvar AIM_SERVERS [64.12.24.0/23,64.12.28.0/23,64.12.161.0/24,64.12.163.0/24,64.
 # Snort Rules Paths - Default is Debian!
 var RULE_PATH rules
 var SO_RULE_PATH /so_rules
-var PREPROC_RULE_PATH /preproc_rules
+var PREPROC_RULE_PATH preproc_rules
 
 # White/Black list paths - Default is Debian!
 var WHITE_LIST_PATH /etc/snort/rules
@@ -62,9 +62,9 @@ config paf_max: 16000
 ###################################################
 
 # Dynamic preprocessor libraries - Debian!
-dynamicpreprocessor directory /usr/lib64/snort-2.9.19_dynamicpreprocessor/
+dynamicpreprocessor directory /usr/local/lib/snort_dynamicpreprocessor/
 # dynamicengine /usr/lib/snort_dynamicengine/libsf_engine.so
-dynamicengine /usr/lib64/snort-2.9.19_dynamicengine/libsf_engine.so
+dynamicengine /usr/local/lib/snort_dynamicengine/libsf_engine.so
 #dynamicdetection directory /usr/local/lib/snort_dynamicrules
 
 ###################################################
