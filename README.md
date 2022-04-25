@@ -69,5 +69,8 @@ Details on alert classifications can be found in the classification.config file 
 * AWS integration only
 * Email Alerts require AWS SES configuration
 
+### Code Walkthrough
+https://youtu.be/dyE_UsZtNSE
+
 ## License
 [APACHE2](http://www.apache.org/licenses/)
