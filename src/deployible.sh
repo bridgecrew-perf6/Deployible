@@ -19,7 +19,7 @@ read -p "Press Enter to continue" >&3
 # Install Dependencies
 echo -e "\nInstalling Dependencies...\n" >&3
 echo -e "\nInstalling Dependencies...\n"
-sudo ansible-playbook -C ../Ansible/init.yml
+sudo ansible-playbook -C ../Ansible/init.yml &>/dev/null
 export ANSIBLE_HOST_KEY_CHECKING=False
 echo -e "Dependencies Installed\n" >&3
 echo -e "Dependencies Installed\n"
@@ -34,14 +34,14 @@ then
 	echo -e "Discovering Hosts via AWS API\n"
 	python3 ./vault.py
 	echo -e "\nEnter Ansible Vault Password"
-	sudo ansible-playbook ../Ansible/host_disc_aws.yml --ask-vault-pass 
+	sudo ansible-playbook ../Ansible/host_disc_aws.yml --ask-vault-pass &>/dev/null
 	sudo python3 ./init_ips.py 0 
 else
 	echo -e "\nDiscovering Hosts via NMAP\n"
-	sudo ansible-playbook ../Ansible/host_disc_nmap.yml
+	sudo ansible-playbook ../Ansible/host_disc_nmap.yml &>/dev/null
 	echo -e "Hosts Discovered"
 	echo -e "Writing Targets to Ansible Configuration"
-	sudo python3 ./init_ips.py 1
+	sudo python3 ./init_ips.py 1 
 
 	echo -e "\nTargets Successfully Loaded"
 fi
@@ -51,28 +51,28 @@ echo -e "Host Discovery Complete\n"
 
 # Snort Installation
 # Check target Operating System
-sudo ansible-playbook ../Ansible/ssh_name.yml
-sudo python3 ../Ansible/ssh_init.py
+sudo ansible-playbook ../Ansible/ssh_name.yml &>/dev/null
+sudo python3 ../Ansible/ssh_init.py &>/dev/null
 #sudo ansible-playbook ../Ansible/snort_kickoff.yml
 
 #########
-sudo ansible-playbook ./config/snort_config.yml
-sudo ansible-playbook ../Ansible/snort_install.yml
+sudo ansible-playbook ./config/snort_config.yml &>/dev/null
+sudo ansible-playbook ../Ansible/snort_install.yml &>/dev/null
 # Snort Installation
 
 # Snort Configuration
-sudo ansible-playbook ../Snort/pulledpork/pulled_pork.yml
+sudo ansible-playbook ../Snort/pulledpork/pulled_pork.yml &>/dev/null
 # Snort Configuration
 
 # Alerting Setup
-sudo ansible-playbook ../Snort/alerting/setsys.yml
-sudo ansible-playbook ../Snort/alerting/target_sys.yml
-sudo python3 ../Snort/alerting/swatch_config.py 
+sudo ansible-playbook ../Snort/alerting/setsys.yml &>/dev/null
+sudo ansible-playbook ../Snort/alerting/target_sys.yml &>/dev/null
+sudo python3 ../Snort/alerting/swatch_config.py
 # Alerting Setup
 
 
 # Verification
-sudo ansible-playbook ../Ansible/verify.yml
+sudo ansible-playbook ../Ansible/verify.yml &>/dev/null
 # Verification
 
 read -p "Do you want this terminal to monitor?? [Y/N]: " ans2
